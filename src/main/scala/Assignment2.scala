@@ -8,7 +8,7 @@ object Assignment2 {
 
     val sparkSession = SparkSession.builder()
       .config("spark.master", "local")
-      .appName("MostPopularCountryObject")
+      .appName("Assignment2")
       .getOrCreate();
     val ds = sparkSession.read
       .format("csv")
@@ -16,7 +16,8 @@ object Assignment2 {
       .load(pathOfFile);
 
     ds.select(col("*"))
-      .filter("is_booking == 1 and srch_destination_id == hotel_country")
+      .filter("is_booking == 1")
+      .filter("srch_destination_id == hotel_country")
       .groupBy("hotel_country")
       .agg(count(countColumnName) as "popularity")
       .orderBy(desc("popularity"))
