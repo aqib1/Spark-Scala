@@ -1,28 +1,27 @@
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
-object SparkTest {
-
+object Assignment2 {
   def main(args: Array[String]) {
     val pathOfFile = "C:/Users/Aqib_Javed/Desktop/data/train.csv";
-    val countColumnName = "is_booking";
+    val countColumnName = "is_booking"
 
-    val spark = SparkSession.builder()
+    val sparkSession = SparkSession.builder()
       .config("spark.master", "local")
-      .appName("SparkTest")
+      .appName("MostPopularCountryObject")
       .getOrCreate();
-
-    val s = spark.read
+    val ds = sparkSession.read
       .format("csv")
-      .option("header", "true") //first line in file has headers
+      .option("header", true)
       .load(pathOfFile);
 
-    s.select(s.col("*"))
-      .filter("is_booking == 1")
-      .groupBy("hotel_continent", "hotel_country", "hotel_market")
+    ds.select(col("*"))
+      .filter("is_booking == 1 and srch_destination_id == hotel_country")
+      .groupBy("hotel_country")
       .agg(count(countColumnName) as "popularity")
       .orderBy(desc("popularity"))
-      .limit(3)
-      .show();
+      .limit(1).show();
+
+
   }
 }
