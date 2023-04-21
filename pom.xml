@@ -10,7 +10,7 @@
 
 
     <properties>
-        <spark-core-version>2.4.3</spark-core-version>
+        <spark-core-version>3.4.0</spark-core-version>
 
     </properties>
 
